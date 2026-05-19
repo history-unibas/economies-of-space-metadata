@@ -90,22 +90,24 @@ def query_dossiers(link_serie):
     sparql.setReturnFormat(JSON)
     sparql.setQuery("""
         PREFIX rico: <https://www.ica.org/standards/RiC/ontology#>
-        PREFIX stabs-rico:
-            <https://ld.bs.ch/ontologies/StABS-RiC/>
+        PREFIX stabs-rico: <https://ld.bs.ch/ontologies/StABS-RiC/>
+        PREFIX schema: <http://schema.org/>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
         SELECT ?link ?identifier ?title ?note ?housenamebs ?oldhousenumber
-            ?owner1862
-            WHERE {{
-                    {{
-                    ?link rico:identifier ?identifier ;
-                    rico:title ?title ;
-                    rico:type "Akte"@ger ;
-                    rico:isDirectlyIncludedIn <{}> .
-                    }}
-                OPTIONAL {{?link rico:generalDescription ?note .}}
-                OPTIONAL {{?link stabs-rico:houseNameBS ?housenamebs .}}
-                OPTIONAL {{?link stabs-rico:oldHousenumber ?oldhousenumber .}}
-                OPTIONAL {{?link stabs-rico:owner1862 ?owner1862 .}}
-            }}
+            ?owner1862 ?instantiation_url ?manifest_url ?viewer_url
+        WHERE {{
+            ?link rico:identifier ?identifier ;
+            rico:title ?title ;
+            rico:type "Akte"@ger ;
+            rico:isDirectlyIncludedIn <{}> ;
+            ^rico:isOrWasDigitalInstantiationOf ?instantiation_url .
+            ?instantiation_url schema:url ?manifest_url ;
+            rdfs:seeAlso ?viewer_url .
+            OPTIONAL {{?link rico:generalDescription ?note .}}
+            OPTIONAL {{?link stabs-rico:houseNameBS ?housenamebs .}}
+            OPTIONAL {{?link stabs-rico:oldHousenumber ?oldhousenumber .}}
+            OPTIONAL {{?link stabs-rico:owner1862 ?owner1862 .}}
+        }}
             """.format(link_serie)
                     )
     ret = sparql.queryAndConvert()
@@ -141,7 +143,9 @@ def get_dossiers(link_serie):
     if dossiers:
         df_dossiers = pd.DataFrame(
             columns=['stabsId', 'title', 'houseName', 'oldHousenumber',
-                     'owner1862', 'descriptiveNote', 'link']
+                     'owner1862', 'descriptiveNote', 'linkRecord',
+                     'linkInstantiation', 'linkManifest', 'linkViewer'
+                     ]
                      )
         for dossier in dossiers:
             df_dossier = pd.DataFrame(
@@ -151,7 +155,10 @@ def get_dossiers(link_serie):
                  'oldHousenumber': [dossier.get('oldhousenumber')],
                  'owner1862': [dossier.get('owner1862')],
                  'descriptiveNote': [dossier.get('note')],
-                 'link': [dossier.get('link')]
+                 'linkRecord': [dossier.get('link')],
+                 'linkInstantiation': [dossier.get('instantiation_url')],
+                 'linkManifest': [dossier.get('manifest_url')],
+                 'linkViewer': [dossier.get('viewer_url')]
                  })
             df_dossiers = pd.concat([df_dossiers, df_dossier],
                                     ignore_index=True
