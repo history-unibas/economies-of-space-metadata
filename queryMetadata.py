@@ -182,6 +182,18 @@ def get_dossier_id(identifier):
     return id
 
 
+def get_page_id(dossier_id, page_nr):
+    """ Based on the dossier id and page number, create the page id.
+    Args:
+        dossier_id (str): Project id of the dossier.
+        page_nr (str): Page number in the dossier.
+
+    Returns:
+        str: Project id of the page.
+    """
+    return f'{dossier_id}_{int(page_nr):03}'
+
+
 def query_documents(link_serie):
     """Given a serie URI, all connected documents where queried.
     The query parameters of this function is optimized to query all documents
