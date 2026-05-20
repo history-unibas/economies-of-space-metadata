@@ -103,7 +103,7 @@ def query_dossiers(link_serie):
             ^rico:isOrWasDigitalInstantiationOf ?instantiation_url .
             ?instantiation_url schema:url ?manifest_url ;
             rdfs:seeAlso ?viewer_url .
-            OPTIONAL {{?link rico:generalDescription ?note .}}
+            OPTIONAL {{?link rico:note ?note .}}
             OPTIONAL {{?link stabs-rico:houseNameBS ?housenamebs .}}
             OPTIONAL {{?link stabs-rico:oldHousenumber ?oldhousenumber .}}
             OPTIONAL {{?link stabs-rico:owner1862 ?owner1862 .}}
