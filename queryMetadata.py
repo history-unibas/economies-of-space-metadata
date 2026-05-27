@@ -55,11 +55,11 @@ def get_series(series_data):
     Returns:
         DataFrame: Table of series metadata.
     """
-    df_series = pd.DataFrame(columns=['stabsId', 'title', 'link'])
+    df_series = pd.DataFrame(columns=['stabsId', 'title', 'linkRecord'])
     for serie in series_data:
         df_serie = pd.DataFrame({'stabsId': [serie['identifier']],
                                  'title': [serie['title']],
-                                 'link': [serie['link']]}
+                                 'linkRecord': [serie['link']]}
                                 )
         df_series = pd.concat([df_series, df_serie], ignore_index=True)
     return df_series
