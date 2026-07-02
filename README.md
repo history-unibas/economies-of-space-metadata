@@ -7,6 +7,7 @@ This repository contains Python scripts for processing metadata of the Historica
 
 ## Notes
 - These scripts were developed as part of the following research project: https://dg.philhist.unibas.ch/de/bereiche/mittelalter/forschung/oekonomien-des-raums/
+- An overview of all the repositories for this project can be found at https://history-unibas.github.io/economies-of-space.
 - Metadata from Linked Open Data of the Basel State Archives are processed. Source: https://ld.staatsarchiv.bs.ch/
 - More information about the historical land register can be found in German at https://www.staatsarchiv.bs.ch/benutzung/recherche/suche-gedruckte-kataloge/historisches-grundbuch.html.
 
@@ -36,6 +37,3 @@ Additional attributes are included in the resulting dataframe 'dossiers_series'.
 | Old house number: "Teil von XY und YZ" (possibly whole parcel) | YZ (as a whole parcel) mentioned first and isPartOf set to False, remark that "Zusätzlich Teil von XY" (but only if unambiguous!): "Zusätzlich Teil von (zu prüfen)"; other cases with remark "Zusätzlich Teil von", but this is probably not fully documented (and also not so important). |
 | Old house number: XY-YZ | Hyphen not interpreted as from-to, but only house numbers actually mentioned noted, as misleading. |
 | from XY | Seems to be a phenomenon of the 19th century, to be read as part of house number XY. Transposed without further comment. |
-
-## Contact
-For questions please contact jonas.aeby@unibas.ch.
